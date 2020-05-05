@@ -1,1 +1,1 @@
-"#SSY.COOL" 
+#SSY.COOL
