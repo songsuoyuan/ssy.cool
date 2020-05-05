@@ -1,0 +1,40 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
+
+<html lang="en">
+  <head>
+    {% block head %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{{ url_for('static', filename='images/icons.png') }}">
+    {% block styles %}
+    <!-- Bootstrap CSS -->
+    {{ bootstrap.load_css() }}
+    {% endblock %}
+
+    <title>SSY.cool</title>
+    {% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+    <div class="navbar-nav">
+      {{ render_nav_item('index', 'HOME') }}
+      {{ render_nav_item('dota188', 'DOTA188') }}
+      {{ render_nav_item('vpgame', 'VPGAME') }}
+      {{ render_nav_item('slcsgo', 'STARLUCK') }}
+    </div>
+    </div>
+    </nav>
+
+    <!-- Your page content -->
+    {% block content %}
+
+    {% endblock %}
+
+    {% block scripts %}
+    <!-- Optional JavaScript -->
+    {{ bootstrap.load_js() }}
+    {% endblock %}
+  </body>
+</html>

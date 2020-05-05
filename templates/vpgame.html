@@ -1,0 +1,21 @@
+{% extends "nav.html" %}
+
+  <!-- Your page content -->
+  {% block content %}
+  {{ super() }}
+  <div class="container">
+    <table id="table" data-toggle="table" data-url="api/vpgame">
+      <thead>
+        <tr>
+          <th data-field="name">饰品名称</th>
+          <th data-field="price">价值</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  {% endblock %}
+
+  {% block scripts %}
+    {{ super() }}
+    <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+  {% endblock %}
