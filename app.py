@@ -36,8 +36,10 @@ def api_dota188():
     name_to_c5_price_dict = {r['name']:r['price'] for r in name_to_c5_price}
     for r in result:
         if r['name'] in name_to_c5_price_dict:
+            r['c5_price'] = round(name_to_c5_price_dict[r['name']], 2)
             r['rate'] = round(name_to_c5_price_dict[r['name']] / r['price'], 2)
         else:
+            r['c5_price'] = None
             r['rate'] = None
         r['timestamp'] = r['timestamp'].strftime("%Y-%m-%d")
     return jsonify(result)
@@ -47,6 +49,16 @@ def api_vpgame():
     db = mongo.db
     record = db.vpgame.find({'latest':True}, {'_id':False,'name':True, 'price':True, 'timestamp':True},sort=[('price', -1)])
     result = list(record)
+    name_to_c5_price = db.c5game.find({'latest':True}, {'_id':False,'name':True, 'price':True})
+    name_to_c5_price_dict = {r['name']:r['price'] for r in name_to_c5_price}
+    for r in result:
+        if r['name'] in name_to_c5_price_dict:
+            r['c5_price'] = round(name_to_c5_price_dict[r['name']], 2)
+            r['rate'] = round(name_to_c5_price_dict[r['name']] / r['price'], 2)
+        else:
+            r['c5_price'] = None
+            r['rate'] = None
+        r['timestamp'] = r['timestamp'].strftime("%Y-%m-%d")
     return jsonify(result)
 
 @app.route('/api/slcsgo')
@@ -54,6 +66,16 @@ def api_slcsgo():
     db = mongo.db
     record = db.slcsgo.find({'latest':True}, {'_id':False,'name':True, 'price':True, 'timestamp':True},sort=[('price', -1)])
     result = list(record)
+    name_to_c5_price = db.c5game.find({'latest':True}, {'_id':False,'name':True, 'price':True})
+    name_to_c5_price_dict = {r['name']:r['price'] for r in name_to_c5_price}
+    for r in result:
+        if r['name'] in name_to_c5_price_dict:
+            r['c5_price'] = round(name_to_c5_price_dict[r['name']], 2)
+            r['rate'] = round(name_to_c5_price_dict[r['name']] / r['price'], 2)
+        else:
+            r['c5_price'] = None
+            r['rate'] = None
+        r['timestamp'] = r['timestamp'].strftime("%Y-%m-%d")
     return jsonify(result)
 
 if __name__ == '__main__':
