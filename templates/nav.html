@@ -11,7 +11,7 @@
     <!-- Bootstrap CSS -->
     {{ bootstrap.load_css() }}
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/35b1457614.js" crossorigin="anonymous"></script>
     {% endblock %}
 
     {% block google_analytics %}
@@ -44,6 +44,18 @@
     <!-- Your page content -->
     {% block content %}
 
+    {% endblock %}
+
+    <!-- Your page footer -->
+    {% block footer %}
+    <footer class="text-center">
+      <div class="copyright">
+      ©2020  <i class="fa fa-heart"></i>
+      <span> SSY</span>
+      </div>
+      <span class="powered-by"><a href="http://www.miitbeian.gov.cn/" target="_blank">浙ICP备19015867号-2</a></span>
+      <span> 由 NGINX 强力驱动！</span>
+    </footer>
     {% endblock %}
 
     {% block scripts %}

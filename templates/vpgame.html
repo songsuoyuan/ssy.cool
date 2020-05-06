@@ -4,7 +4,7 @@
   {% block content %}
   {{ super() }}
   <div class="container">
-    <table id="table" data-toggle="table" data-url="api/vpgame">
+    <table id="table" data-toggle="table" data-pagination="true" data-page-size=100 data-page-list="[]" data-url="api/vpgame">
       <thead>
         <tr>
           <th data-field="name">饰品名称</th>
