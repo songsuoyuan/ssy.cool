@@ -1,0 +1,19 @@
+{% extends "nav.html" %}
+
+  <!-- Your page content -->
+  {% block content %}
+  {{ super() }}
+  <div class="container">
+    <table id="table" data-toggle="table" data-pagination="true" data-page-size=100 data-page-list="[]" data-url="api/diamond">
+      <thead>
+        <tr>
+          <th data-field="name">饰品名称</th>
+          <th data-sortable="true" data-field="price">钻石</th>
+          <th data-sortable="true" data-field="c5_price">售价</th>
+          <th data-sortable="true" data-field="rate">比例</th>
+          <th data-field="inventory">库存</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  {% endblock %}
