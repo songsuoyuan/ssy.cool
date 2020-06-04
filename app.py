@@ -7,12 +7,16 @@ from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 app.secret_key = 'no-secret-key'
-app.config['MONGO_URI'] = 'mongodb://ssy:zhouzhou2013@47.110.138.247:27017/dota2'
-#app.config['MONGO_URI'] = 'mongodb://ssy:zhouzhou2013@localhost:27017/dota2'
+app.config['MONGO_URI'] = 'mongodb://oblivious:zhouzhou2013@47.110.138.247:27017/'
+#app.config['MONGO_URI'] = 'mongodb://oblivious:zhouzhou2013@localhost:27017/'
+app.config['MONGO_AUTH_SOURCE'] = 'admin'
 app.config['JSON_AS_ASCII'] = False
 
 bootstrap = Bootstrap(app)
-mongo = PyMongo(app)
+base_mongodb = PyMongo(app)
+mongo = base_mongodb.cx['dota2']
+mongo_csgo = base_mongodb.cx['csgo']
+
 
 header_vp = {
     'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36',
@@ -66,10 +70,24 @@ def diamond():
 def ingot():
     return render_template('ingot.html')
 
+@app.route('/csgo_dota188')
+def csgo_dota188():
+    return render_template('csgo_dota188.html')
+
+@app.route('/api/csgo_dota188')
+def api_csgo_dota188():
+    db = mongo_csgo
+    aggregation_string=[{"$group" : {"_id" : "$name", "timestamp":{ "$last": "$timestamp" }, "price":{ "$last": "$price" }, "latest":{ "$last": "$latest" }}}, {"$sort":{"price": -1}}]
+    record = db.dota188.aggregate(aggregation_string)
+    result = list(record)
+    for r in result:
+        r['reliable'] = '高' if r['latest'] else '低'
+        r['timestamp'] = r['timestamp'].strftime("%Y-%m-%d")
+    return jsonify(result)
 
 @app.route('/api/dota188')
 def api_dota188():
-    db = mongo.db
+    db = mongo
     record = db.dota188.find({'latest':True}, {'_id':False,'name':True, 'price':True, 'timestamp':True},sort=[('price', -1)])
     result = list(record)
     name_to_c5_price = db.c5game.find({'latest':True}, {'_id':False,'name':True, 'price':True})
@@ -86,7 +104,7 @@ def api_dota188():
 
 @app.route('/api/vpgame')
 def api_vpgame():
-    db = mongo.db
+    db = mongo
     record = db.vpgame.find({'latest':True}, {'_id':False,'name':True, 'price':True, 'timestamp':True},sort=[('price', -1)])
     result = list(record)
     name_to_c5_price = db.c5game.find({'latest':True}, {'_id':False,'name':True, 'price':True})
@@ -103,7 +121,7 @@ def api_vpgame():
 
 @app.route('/api/slcsgo')
 def api_slcsgo():
-    db = mongo.db
+    db = mongo
     record = db.slcsgo.find({'latest':True}, {'_id':False,'name':True, 'price':True, 'timestamp':True},sort=[('price', -1)])
     result = list(record)
     name_to_c5_price = db.c5game.find({'latest':True}, {'_id':False,'name':True, 'price':True})
@@ -120,7 +138,7 @@ def api_slcsgo():
 
 @app.route('/api/diamond')
 def api_diamond():
-    db = mongo.db
+    db = mongo
     name_to_c5_price = db.c5game.find({'latest':True}, {'_id':False,'name':True, 'price':True})
     name_to_c5_price_dict = {r['name']:r['price'] for r in name_to_c5_price}
     api_url = 'https://www.vpgame.com/market/gift/api/mall/list?limit=100&offset=0&appid=570&order_type=pro_price&order=desc&t=1589388518670'
@@ -148,7 +166,7 @@ def api_diamond():
 
 @app.route('/api/ingot')
 def api_ingot():
-    db = mongo.db
+    db = mongo
     name_to_c5_price = db.c5game.find({'latest':True}, {'_id':False,'name':True, 'price':True})
     name_to_c5_price_dict = {r['name']:r['price'] for r in name_to_c5_price}
     api_url = 'https://www.dota188.com/api/ingotitems/v2/list.do?rel=goldingot_items&itemWidth=160&data=loading&page=1&total=164&pages=3&_=1546271685565'

@@ -1,0 +1,18 @@
+{% extends "nav.html" %}
+
+  <!-- Your page content -->
+  {% block content %}
+  {{ super() }}
+  <div class="container">
+    <table id="table" data-toggle="table" data-pagination="true" data-page-size=100 data-page-list="[]" data-url="api/csgo_dota188">
+      <thead>
+        <tr>
+          <th data-field="_id">饰品名称</th>
+          <th data-sortable="true" data-field="price">价值（美刀）</th>
+          <th data-sortable="true" data-field="reliable">可靠程度</th>
+          <th data-sortable="true" data-field="timestamp">更新时间</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  {% endblock %}
