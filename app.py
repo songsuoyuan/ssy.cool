@@ -7,8 +7,8 @@ from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 app.secret_key = 'no-secret-key'
-app.config['MONGO_URI'] = 'mongodb://oblivious:zhouzhou2013@47.110.138.247:27017/'
-#app.config['MONGO_URI'] = 'mongodb://oblivious:zhouzhou2013@localhost:27017/'
+#app.config['MONGO_URI'] = 'mongodb://oblivious:zhouzhou2013@47.110.138.247:27017/'
+app.config['MONGO_URI'] = 'mongodb://oblivious:zhouzhou2013@localhost:27017/'
 app.config['MONGO_AUTH_SOURCE'] = 'admin'
 app.config['JSON_AS_ASCII'] = False
 
@@ -196,5 +196,5 @@ def api_ingot():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    #app.run(host='0.0.0.0', port=9999)
+    #app.run(debug=True)
+    app.run(host='0.0.0.0', port=9999)
