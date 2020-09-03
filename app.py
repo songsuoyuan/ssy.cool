@@ -16,6 +16,7 @@ bootstrap = Bootstrap(app)
 base_mongodb = PyMongo(app)
 mongo = base_mongodb.cx['dota2']
 mongo_csgo = base_mongodb.cx['csgo']
+mongo_bdwm = base_mongodb.cx['bdwm']
 
 
 header_vp = {
@@ -49,6 +50,16 @@ header_5e = {
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/crawl_stats')
+def crawl():
+    return jsonify(mongo_bdwm.command("collstats", "title"))
+
+@app.route('/crawl_latest')
+def craw_latest():
+    db = mongo_bdwm
+    res = list(db.title.find({}, {'_id':False}).sort('timestamp', -1).limit(20))
+    return jsonify(res)
 
 @app.route('/dota188')
 def dota188():
