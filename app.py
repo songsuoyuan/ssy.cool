@@ -11,6 +11,8 @@ app.secret_key = 'no-secret-key'
 app.config['MONGO_URI'] = 'mongodb://oblivious:zhouzhou2013@localhost:27017/'
 app.config['MONGO_AUTH_SOURCE'] = 'admin'
 app.config['JSON_AS_ASCII'] = False
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
 
 bootstrap = Bootstrap(app)
 base_mongodb = PyMongo(app)
@@ -53,12 +55,12 @@ def index():
 
 @app.route('/crawl_stats')
 def crawl():
-    return jsonify(mongo_bdwm.command("collstats", "title"))
+    return jsonify(mongo_bdwm.command("collstats", "content"))
 
 @app.route('/crawl_latest')
 def craw_latest():
     db = mongo_bdwm
-    res = list(db.title.find({}, {'_id':False}).sort('timestamp', -1).limit(20))
+    res = list(db.content.find({}, {'_id':False}).sort('timestamp', -1).limit(10))
     return jsonify(res)
 
 @app.route('/dota188')
